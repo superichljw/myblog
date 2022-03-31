@@ -1,0 +1,58 @@
+<style>
+    body{
+        text-align: center;
+    }
+    .wrapper {
+        width: 100%;
+        text-align: left;
+        min-height: 300px;
+        margin: 0 auto;
+    }
+    header {
+        height: 50px;
+        background-color: red;
+    }
+    nav, section, aside {
+        float: left;
+        height: 100%;
+    }
+    nav {
+        background-color: goldenrod;
+        text-align: left;
+        width: 200px;
+    }
+    section {
+        background-color: green;
+        width: 80%;
+
+        border: 1px solid black;
+    }
+    footer {
+        height: 50px;
+        background-color: blue;
+        position: relative;
+        clear: both;
+    }
+    .sidebar .mt-2 ul{
+        list-style: none;
+    }
+    .sidebar .mt-2 a{
+        text-decoration: none;
+    }
+    .sidebar .mt-2 ul li ul a{
+        margin-top:50px;
+        margin-left: -30px;
+    }
+    .sidebar .mt-2 .nav{
+        padding-top:5px;
+        padding-bottom: 5px;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://use.fontawesome.com/releases/v6.1.1/js/all.js"></script>
+<script>
+    function show_submenu(obj){
+        $(obj).closest('li').find('ul').toggle();
+    }
+
+</script>

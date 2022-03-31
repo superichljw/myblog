@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<!--<head th:replace="board/fragments/header :: main-head"> </head>-->
+<!--<body th:replace="board/fragments/body :: main-body"> </body>-->
+<th:block layout:fragment="content">
+  <div class="card-content">
+    <form class="form-horizontal" id="form">
+      <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">제목</label>
+        <div class="col-sm-10">
+          <input type="text" id="title" class="form-control" placeholder="제목을 입력해 주세요." />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="writer" class="col-sm-2 control-label">이름</label>
+        <div class="col-sm-10">
+          <input type="text" id="writer" class="form-control" placeholder="이름을 입력해 주세요." />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contents" class="col-sm-2 control-label">내용</label>
+        <div class="col-sm-10">
+          <textarea id="contents" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+        </div>
+      </div>
+
+      <div class="btn_wrap text-center">
+        <a th:href="@{/board/list}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+        <button type="button" onclick="save()" class="btn btn-primary waves-effect waves-light">저장하기</button>
+      </div>
+    </form>
+  </div>
+</th:block>
+
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    window.onload = () => {
+      findBoard();
+    }
+
+    /**
+     * 게시글 조회
+     */
+    function findBoard() {
+
+      const id = [[ ${boardIdx} ]];
+
+      if ( !id ) {
+        return false;
+      }
+
+      fetch(`/api/boards/${id}`).then(response => {
+        if (!response.ok) {
+          throw new Error('Request failed...');
+        }
+        return response.json();
+
+      }).then(json => {
+        const form = document.getElementById('form');
+        form.title.value = json.title;
+        form.contents.value = json.contents;
+        form.writer.value = json.writer;
+
+      }).catch(error => {
+        alert('게시글 정보를 찾을 수 없습니다.');
+        location.href = '/board/list';
+      });
+    }
+    /**
+     * 유효성 검사
+     */
+    function isValid() {
+
+      const form = document.getElementById('form');
+
+      if (!form.title.value.trim()) {
+        alert('제목을 입력해 주세요.');
+        form.title.value = '';
+        form.title.focus();
+        return false;
+      }
+
+      if (!form.writer.value.trim()) {
+        alert('작성자를 입력해 주세요.');
+        form.writer.value = '';
+        form.writer.focus();
+        return false;
+      }
+
+      if (!form.contents.value.trim()) {
+        alert('내용을 입력해 주세요.');
+        form.contents.value = '';
+        form.contents.focus();
+        return false;
+      }
+
+      return true;
+    }
+    /**
+     * 게시글 등록(생성/수정)
+     */
+    function save() {
+
+      if ( !isValid() ) {
+        return false;
+      }
+
+      const form = document.getElementById('form');
+      const params = {
+        title: form.title.value,
+        writer: form.writer.value,
+        contents: form.contents.value,
+        deleteYn: 'N'
+      };
+
+      const id = [[ ${boardIdx} ]];
+      const uri = ( id ) ? `/api/boards/${id}` : '/api/boards';
+      const method = ( id ) ? 'PATCH' : 'POST';
+
+      // alert(id);
+      // alert(uri);
+      // alert(method);
+      fetch(uri, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params)
+
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Request failed...');
+        }
+
+        alert('저장되었습니다.');
+        location.href = '/board/list';
+
+      }).catch(error => {
+        alert('오류가 발생하였습니다.');
+      });
+    }
+  </script>
+</th:block>
+
+</html>

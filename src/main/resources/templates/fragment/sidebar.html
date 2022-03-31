@@ -1,0 +1,44 @@
+
+<!--<aside class="main-sidebar sidebar-dark-primary elevation-4">-->
+    <nav class="main-sidebar sidebar-dark-primary elevation-4>"
+    <!-- Brand Logo -->
+    <a th:href="@{/}" class="brand-link text-center">
+        <span class="brand-text font-weight-light">MYBLOG</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false" >
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+
+                <li class="nav-item has-treeview" th:each="category : ${categories}" >
+<!--                    <a href="javascript:show_submenu(this)" class="nav-link" >-->
+                    <a href="#" class="nav-link" onclick="show_submenu(this)" >
+<!--                        <i th:class="nav-icon" th:classappend="${category.key.icon}"></i>-->
+                        <i class="fa-solid fa-plus"></i>
+                        <span>
+<!--                            <i class="right fas fa-angle-right"></i>-->
+                            <span th:text="${category.key.title}" th:remove="tag"></span>
+                        </span>
+                    </a>
+                    <ul class="nav nav-treeview" th:each="child : ${category.value}" >
+                        <li class="nav-item">
+<!--                            <a th:href="@{'/product/view/list/' + ${child.id}}" class="nav-link">-->
+                            <a th:href="@{/}" class="nav-link">
+                                <i class="nav-icon" th:classappend="${child.icon}"></i>
+                                <span th:text="${child.title}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</nav>
+<!--</aside>-->

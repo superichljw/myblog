@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <head>
+        <th:block th:include="fragment/head_script"></th:block>
+        <!--    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>-->
+    </head>
+</head>
+<body>
+<div id="wrapper">
+    <th:block th:include="fragment/header"></th:block>
+
+    <div class="sidebar">
+
+        <button type="button" onclick="this.alert('button clicked')">추가하기</button>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false" >
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+
+                <li class="nav-item has-treeview" th:each="category : ${categories}" >
+                    <!--                    <a href="javascript:show_submenu(this)" class="nav-link" >-->
+                    <a href="#" class="nav-link" onclick="show_submenu(this)" >
+                        <!--                        <i th:class="nav-icon" th:classappend="${category.key.icon}"></i>-->
+                        <i class="fa-solid fa-plus"></i>
+                        <span>
+<!--                            <i class="right fas fa-angle-right"></i>-->
+                            <span th:text="${category.key.title}" th:remove="tag"></span>
+                        </span>
+                    </a>
+                    <ul class="nav nav-treeview" th:each="child : ${category.value}" >
+                        <li class="nav-item">
+                            <!--                            <a th:href="@{'/product/view/list/' + ${child.id}}" class="nav-link">-->
+                            <a th:href="@{/}" class="nav-link">
+                                <i class="nav-icon" th:classappend="${child.icon}"></i>
+                                <span th:text="${child.title}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+
+    <th:block th:include="fragment/footer"></th:block>
+</div>
+
+
+</body>
+</html>
